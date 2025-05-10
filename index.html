@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Celebration</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="celebration.js" defer></script>
+    <script src="darkMode.js" defer></script>
+    <script>
+        window.addEventListener('click', function() {
+            document.getElementById('bgMusic').play();
+        });
+    </script>
+</head>
+<body>
+    <div class="sparkles-container">
+        <span class="sparkle">✨</span>
+        <span class="sparkle">⭐</span>
+        <span class="sparkle">✨</span>
+    </div>
+    <button id="darkModeToggle" class="theme-toggle">🌙</button>
+    <audio id="bgMusic" loop autoplay>
+        <source src="Music1.mp3" type="audio/mp3">
+    </audio>
+    <div class="celebration-container"></div>
+    <div class="container">
+        <div class="corner-decor top-left">🎀</div>
+        <div class="corner-decor top-right">🎀</div>
+        <h1>🎉 Welcome to the place of Devine! 🎂</h1>
+        <p>Only created for you, hope you'll enjoy.</p>
+        <div class="balloon-container">
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎈</div>
+        </div>
+        <div class="gif-box">
+            <div class="glow-effect"></div>
+            <img src="GIF1.gif" alt="Birthday Gift">
+        </div>
+        <button class="continue-btn" onclick="window.location.href='HappyBirthday.html'">Continue ➡️</button>
+        <div class="corner-decor bottom-left">🎀</div>
+        <div class="corner-decor bottom-right">🎀</div>
+    </div>
+</body>
+</html>

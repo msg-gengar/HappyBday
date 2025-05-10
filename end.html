@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message For You</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            background-color: #fef9ff;
+        }
+        
+        body {
+            background: linear-gradient(
+                45deg,
+                #ff6b6b, 
+                #ffd93d, 
+                #6c5ce7, 
+                #ff8e8e,
+                #a8e6cf
+            );
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 5s infinite;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .letter-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin: 30px 0;
+            width: 100%;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1.5s forwards;
+            animation-delay: 1s;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .letter-container:hover {
+            transform: rotate3d(1, 1, 0, 15deg);
+        }
+        
+        .letter-container:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff7eb3, #ff758c, #ff7eb3, #fad0c4, #ff7eb3);
+            z-index: -1;
+            border-radius: 17px;
+            background-size: 400%;
+            animation: borderGlow 10s linear infinite;
+        }
+        
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .letter-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: #ff5e88;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .letter-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+            transform: translateZ(20px);
+        }
+        
+        .letter-signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #ff5e88;
+            text-align: right;
+            margin-top: 20px;
+        }
+        
+        .gif-container {
+            margin: 40px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 300px;
+            height: 300px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1.5s forwards;
+            animation-delay: 2s;
+        }
+        
+        .gif-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards;
+            animation-delay: 3s;
+        }
+        
+        .music-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .music-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .wish-button {
+            background: linear-gradient(45deg, #ff7eb3, #ff758c);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(255, 126, 179, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards;
+            animation-delay: 3.5s;
+        }
+        
+        .wish-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 126, 179, 0.5);
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .photo-memories {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            perspective: 1000px;
+            width: 100%;
+            max-width: 600px;
+            height: 200px;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+            animation-delay: 2.5s;
+        }
+        
+        .polaroid {
+            background: white;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: absolute;
+            top: 0;
+            width: 160px;
+            height: 160px;
+            transition: all 0.5s ease;
+            transform: translateY(0) rotate(0deg);
+        }
+        
+        .polaroid img {
+            width: 100%;
+            height: calc(100% - 30px);
+            object-fit: cover;
+        }
+        
+        .polaroid p {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 0;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .polaroid:nth-child(1) {
+            transform: translateX(-180px) rotate(-10deg);
+        }
+        
+        .polaroid:nth-child(2) {
+            transform: translateX(-60px) rotate(5deg);
+        }
+        
+        .polaroid:nth-child(3) {
+            transform: translateX(60px) rotate(-7deg);
+        }
+        
+        .polaroid:nth-child(4) {
+            transform: translateX(180px) rotate(12deg);
+        }
+        
+        .polaroid:hover {
+            transform: translateY(-20px) scale(1.1) rotate(0deg) !important;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars background -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Floating hearts -->
+    <div class="floating-hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="letter-container">
+            <h1 class="letter-title">Dear <span id="recipientName">Aunty</span>,</h1>
+            <div class="letter-content">
+            </p> First of all a warm greetings to you 🙏 and wishing you Happy Birthday. </p>
+            </p> Mmm this is a very small present by me, I think not soo good due to lack of time and elements 😞. This is not much worth as it has nothing special.</p>
+            </p> But yah this is made by me from core of my heart, I have putted all my efforts to it and made something what I have learned.</p>
+            </p> I hope it will worth my work and again Happy Birthday 😊🎂 May this year bring happiness into your life.</p>
+            </p>Thanks,</p>
+            </div>
+            <div class="letter-signature">With deepest affection,<br>Rahul</div>
+        </div>
+        
+        <div class="gif-container">
+            <img src="GIF3.jpeg" alt="Birthday Animation" id="birthdayGif">
+        </div>
+        
+        <button class="wish-button" id="wishButton">Thanks for watching it till here.</button>
+    </div>
+    
+    <!-- Music player (hidden) -->
+    <audio id="bgMusic" loop>
+        <source src="Music3.mp3" type="audio/mp3">
+    </audio>
+    
+    <div class="music-controls">
+        <svg class="music-icon" id="musicToggle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5.5" cy="17.5" r="2.5"/>
+            <circle cx="18.5" cy="17.5" r="2.5"/>
+            <path d="M18.5 17.5V5a3 3 0 0 0-3-3h-7"/>
+            <line x1="5.5" y1="17.5" x2="5.5" y2="10"/>
+            <line x1="18.5" y1="5" x2="5.5" y2="10"/>
+        </svg>
+        <span class="music-label" id="musicStatus">Music: On</span>
+    </div>
+    
+    <script>
+        // Create stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 150;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random size between 1px and 4px
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation delay
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            
+            function createHeart() {
+                if (document.hidden) return; // Don't create hearts when tab is inactive
+                
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Heart SVG
+                heart.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7eb3" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>`;
+                
+                // Random size between 15px and 40px
+                const size = Math.random() * 25 + 15;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                
+                // Random position at bottom of screen
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.bottom = '0';
+                
+                // Random animation duration between 8s and 15s
+                const duration = Math.random() * 7 + 8;
+                heart.style.animation = `float ${duration}s linear forwards`;
+                
+                heartsContainer.appendChild(heart);
+                
+                // Remove heart after animation completes
+                setTimeout(() => {
+                    heart.remove();
+                }, duration * 1000);
+            }
+            
+            // Create heart every 500ms
+            setInterval(createHeart, 500);
+        }
+        
+        // Handle music playing
+        function setupMusic() {
+            const music = document.getElementById('bgMusic');
+            const musicToggle = document.getElementById('musicToggle');
+            const musicStatus = document.getElementById('musicStatus');
+            let isMusicPlaying = true;
+            
+            // Try to play music automatically (may be blocked by browsers)
+            const playPromise = music.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    isMusicPlaying = false;
+                    musicStatus.textContent = 'Music: Off';
+                });
+            }
+            
+            musicToggle.addEventListener('click', () => {
+                if (isMusicPlaying) {
+                    music.pause();
+                    musicStatus.textContent = 'Music: Off';
+                } else {
+                    music.play();
+                    musicStatus.textContent = 'Music: On';
+                }
+                isMusicPlaying = !isMusicPlaying;
+            });
+        }
+        
+        // Handle wish button
+        function setupWishButton() {
+            const wishButton = document.getElementById('wishButton');
+            
+            wishButton.addEventListener('click', () => {
+                // Create many hearts for wish effect
+                const heartsContainer = document.getElementById('hearts');
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.classList.add('heart');
+                        
+                        // Heart SVG with random colors
+                        const colors = ['#ff7eb3', '#ff5e88', '#ff8e8e', '#ffb396', '#ff6b81'];
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        heart.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>`;
+                        
+                        // Random size
+                        const size = Math.random() * 30 + 10;
+                        heart.style.width = `${size}px`;
+                        heart.style.height = `${size}px`;
+                        
+                        // Position near the button
+                        const buttonRect = wishButton.getBoundingClientRect();
+                        heart.style.left = `${buttonRect.left + buttonRect.width/2 - size/2 + (Math.random() * 200 - 100)}px`;
+                        heart.style.top = `${buttonRect.top + buttonRect.height/2 - size/2}px`;
+                        
+                        // Animation
+                        const duration = Math.random() * 5 + 3;
+                        heart.style.animation = `float ${duration}s linear forwards`;
+                        
+                        heartsContainer.appendChild(heart);
+                        
+                        // Remove after animation
+                        setTimeout(() => {
+                            heart.remove();
+                        }, duration * 1000);
+                    }, i * 50); // Staggered creation
+                }
+                
+                // Show message
+                alert('Hope you liked! And sorry for not doing something good.');
+            });
+        }
+        
+        // Get name from URL or localStorage
+        function getPersonName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            
+            if (name) {
+                document.getElementById('recipientName').textContent = name;
+            } else {
+                const storedName = localStorage.getItem('birthdayName');
+                if (storedName) {
+                    document.getElementById('recipientName').textContent = storedName;
+                }
+            }
+        }
+        
+        // Initialize everything when page loads
+        window.onload = function() {
+            createStars();
+            createHearts();
+            setupMusic();
+            setupWishButton();
+            getPersonName();
+        };
+    </script>
+</body>
+</html>
